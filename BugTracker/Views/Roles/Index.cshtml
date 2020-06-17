@@ -1,0 +1,94 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using BugTracker.Models;
+@using Microsoft.AspNet.Identity
+@{
+    ApplicationDbContext db = new ApplicationDbContext();
+    var user = db.Users.Find(User.Identity.GetUserId());
+
+}
+<h3 class="modal-header">Roles</h3>
+
+@if (User.IsInRole("Admin"))
+{
+
+    <div class="row col-sm-12 col-lg-12 col-md-12">
+        <div class="col-sm-6 col-lg-6 col-md-6">
+
+            <div class="card card-body">
+                <div class="card-header">
+                    <h4>Create A New Role</h4>
+                </div>
+                <div class="card-body">
+                    @using (Html.BeginForm("CreatingRole", "Roles", new { @class = "form-horizontal" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true)
+
+                        <div>
+                            Role name: @Html.TextBox("role", "", new { @class = "form-control" })
+                            <br />
+                            <input type="submit" value="Create Role" class="btn btn-primary" />
+                        </div>
+                    }
+                </div>
+            </div>
+            <br />
+
+            <div class="card card-body">
+                <div class="card-header">
+                    <h4>Add a Role to a User</h4>
+                </div>
+
+                <div class="card-body">
+                    @using (Html.BeginForm("AddRoleToUser", "Roles", new { @class = "form-horizontal" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true)
+
+                        <div>
+                            User Name: @Html.DropDownList("email", (IEnumerable<SelectListItem>)ViewBag.Users, "Select ...", new { @class = "form-control" })
+                            Role Name: @Html.DropDownList("role", (IEnumerable<SelectListItem>)ViewBag.Roles, "Select ...", new { @class = "form-control" })
+                            <br />
+                            <input type="submit" value="Add role" class="btn btn-primary" />
+                        </div>
+                    }
+                </div>
+            </div>
+
+
+            <div class="card card-body">
+                <div class="card-header">
+                    <h4>Remove User from a role</h4>
+                </div>
+
+                <div class="card-body">
+                    @using (Html.BeginForm("RemoveRole", "Roles", new { @class = "form-horizontal" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true)
+
+                        <div>
+                            User Name: @Html.DropDownList("email", (IEnumerable<SelectListItem>)ViewBag.Users, "Select ...", new { @class = "form-control" })
+                            Role Name: @Html.DropDownList("role", (IEnumerable<SelectListItem>)ViewBag.Roles, "Select ...", new { @class = "form-control" })
+                            <br />
+                            <input type="submit" value="Remove role" class="btn btn-primary" />
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="alert-info col-sm-12 col-lg-12 col-md-12">
+        @ViewBag.message
+    </div>
+}
+else
+{
+<div>
+    <h3>You are not authorized to view this page</h3>
+</div>
+}
