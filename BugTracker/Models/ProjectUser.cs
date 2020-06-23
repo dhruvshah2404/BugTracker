@@ -16,7 +16,6 @@ namespace BugTracker.Models
 
         [ForeignKey("User")]
         public string UserId { get; set; }
-
         public virtual ApplicationUser User { get; set; }
     }
 }

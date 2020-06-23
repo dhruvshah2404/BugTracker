@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -13,11 +14,13 @@ namespace BugTracker.Models
         public ApplicationUser()
         {
          ProjectUsers = new HashSet<ProjectUser>();
+         Tickets = new HashSet<Ticket>();
         }
 
         public ICollection<ProjectUser> ProjectUsers { get; set; }
+        public ICollection<Ticket> Tickets { get; set; }
 
-        public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
+             public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
             var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
@@ -38,6 +41,9 @@ namespace BugTracker.Models
             return new ApplicationDbContext();
         }
         public DbSet<Project> Projects { get; set; }
+        public DbSet<Ticket> Tickets { get; set; }
+        public DbSet<ProjectUser> ProjectUsers { get; set; }
+
 
     }
 }
