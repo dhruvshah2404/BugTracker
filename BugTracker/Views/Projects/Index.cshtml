@@ -10,56 +10,66 @@
 
 
 <br />
+@if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
+{
+    <div class="card card-body">
+        <div class="card">
+            <h3 class="card-header">
+                <b>Projects Info</b>
+            </h3>
+        </div>
+        <div class="card-body">
+            <table class="table table-hover table-bordered table-condensed" id="UsersWithRoles">
+                <thead>
+                    <tr>
+                        <h3>
+                            <b>
+                                @if (User.IsInRole("Project Manager") || User.IsInRole("Admin"))
+                                {
+                                    <i class="fas fa-user-plus"></i>
+                                    @Html.ActionLink("Add Project", "Create", new { @class = "form-horizontal" })
+                                }
+                            </b>
+                        </h3>
+                    </tr>
+                </thead>
+                <thead>
+                    <tr>
+                        <td><b>Project Name</b></td>
+                        <td><b>Project Manager</b></td>
+                        @if (User.IsInRole("Project Manager") || User.IsInRole("Admin"))
+                        {
+                            <td><b>Modification</b></td>
+                        }
+                    </tr>
+                </thead>
+                @foreach (var project in Model)
+                {
 
-<div class="card card-body">
-    <div class="card">
-        <h3 class="card-header">
-            <b>Projects Info</b>
-        </h3>
+                    var pm = db.ProjectUsers.FirstOrDefault(p => p.Project.Id == project.Id).User.UserName;
+                    <tr>
+                        <td>@Html.ActionLink(@project.Name, "Info", new { id = project.Id })</td>
+                        <td>@pm</td>
+                       
+                            <td>
+                                @Html.ActionLink("Edit", "Edit", new { id = project.Id }) |
+                                <span onclick="return confirm('Are you sure to delete?')"><a href="/Projects/Delete?ProjectId=@project.Id" class="delLink" style="color:red;">Delete</a></span>
+                            </td>
+
+                    </tr>
+
+                }
+            </table>
+        </div>
     </div>
-    <div class="card-body">
-        <table class="table table-hover table-bordered table-condensed" id="UsersWithRoles">
-            <thead>
-                <tr>
-                    <h3>
-                        <b>
-                            <i class="fas fa-user-plus"></i>
-                            @Html.ActionLink("Add Project", "Create", new { @class = "form-horizontal" })
-                        </b>
-                    </h3>
-                </tr>
-            </thead>
-            <thead>
-                <tr>
-                    <td><b>Project Name</b></td>
-                    <td><b>Project Manager</b></td>
-                    <td><b>Modification</b></td>
-                </tr>
-            </thead>
-            @foreach (var project in Model)
-            {
-                
-               var pm = db.ProjectUsers.FirstOrDefault(p => p.Project.Id == project.Id).User.UserName;
-                <tr>
-                    <td>@Html.ActionLink(@project.Name, "Info", new { id = project.Id })</td>
-                    <td>@pm</td>
-                    <td>
-                        @Html.ActionLink("Edit", "Edit", new { id = project.Id }) |
-                        <span onclick="return confirm('Are you sure to delete?')"><a href="/Projects/Delete?ProjectId=@project.Id" class="delLink" style="color:red;">Delete</a></span>
-                    </td>
-                </tr>
 
-                    }
-        </table>
+    <div class="alert-info col-sm-12 col-lg-12 col-md-12">
+        @ViewBag.message
     </div>
-</div>
-
-@*<div>
-        <h4>@Html.ActionLink("Back", "Index", "Roles")</h4>
-    </div>*@
-
-
-<div class="alert-info col-sm-12 col-lg-12 col-md-12">
-    @ViewBag.message
-</div>
-
+}
+else
+{
+    <div>
+        <h3>You are not authorized to view this page</h3>
+    </div>
+}

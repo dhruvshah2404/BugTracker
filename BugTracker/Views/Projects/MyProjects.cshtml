@@ -1,0 +1,45 @@
+﻿@model IEnumerable<BugTracker.Models.Project>
+@using BugTracker.Models;
+
+@{
+    ViewBag.Title = "MyProjects";
+    ApplicationDbContext db = new ApplicationDbContext();// the database
+
+}
+
+
+
+<div class="card card-body">
+    <div class="card">
+        <h3 class="card-header">
+            <b>My Projects</b>
+        </h3>
+    </div>
+    <div class="card-body">
+        <table class="table table-hover table-bordered table-condensed" id="UsersWithRoles">
+            <thead>
+
+            </thead>
+            <thead>
+                <tr>
+                    <td><b>Project Name</b></td>
+                    <td><b>Project Manager</b></td>
+                </tr>
+            </thead>
+            @foreach (var project in Model)
+            {
+
+                var pm = db.ProjectUsers.FirstOrDefault(p => p.Project.Id == project.Id).User.UserName;
+                <tr>
+                    <td>@Html.ActionLink(@project.Name, "Info", new { id = project.Id })</td>
+                    <td>@pm</td>
+                </tr>
+
+            }
+        </table>
+    </div>
+</div>
+
+<div class="alert-info col-sm-12 col-lg-12 col-md-12">
+    @ViewBag.message
+</div>

@@ -16,9 +16,9 @@ namespace BugTracker.Models
 				Project project = new Project() { Name = name};
 				db.Projects.Add(project);
 				db.SaveChanges();
-			ProjectUser projectUser = new ProjectUser() { ProjectId = project.Id, UserId = userId };
-			db.ProjectUsers.Add(projectUser);
-			db.SaveChanges();
+				ProjectUser projectUser = new ProjectUser() { ProjectId = project.Id, UserId = userId };
+				db.ProjectUsers.Add(projectUser);
+				db.SaveChanges();
 			return true;
 			}
 

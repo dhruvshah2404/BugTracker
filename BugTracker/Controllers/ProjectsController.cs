@@ -3,14 +3,15 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 
 namespace BugTracker.Controllers
 {
-    [Authorize(Roles = "Project Manager,Admin")]
     public class ProjectsController : Controller
     {
          ApplicationDbContext db = new ApplicationDbContext();// the database
@@ -19,6 +20,15 @@ namespace BugTracker.Controllers
         public ActionResult Index()
         {
             var projects = db.Projects.ToList();
+            return View(projects);
+        }
+        public ActionResult MyProjects(string id)
+        {
+            var projects = db.ProjectUsers.Where(p => p.UserId == id).Select(u => u.Project).ToList();
+            if (projects.)
+            {
+
+            }
             return View(projects);
         }
         //GET
@@ -47,6 +57,31 @@ namespace BugTracker.Controllers
             }
             return RedirectToAction("Index");
         }
+        [Authorize(Roles = "Project Manager,Admin")]
+        public ActionResult Edit(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Project project = db.Projects.Find(id);
+            if (project == null)
+            {
+                return HttpNotFound();
+            }
+            return View(project);
+        }
 
+        [HttpPost]
+        public ActionResult Edit([Bind(Include = "name,UserId")] Project project)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(project).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View(project);
+        }
     }
 }
