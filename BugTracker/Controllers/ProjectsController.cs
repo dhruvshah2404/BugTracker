@@ -25,10 +25,6 @@ namespace BugTracker.Controllers
         public ActionResult MyProjects(string id)
         {
             var projects = db.ProjectUsers.Where(p => p.UserId == id).Select(u => u.Project).ToList();
-            if (projects.)
-            {
-
-            }
             return View(projects);
         }
         //GET
