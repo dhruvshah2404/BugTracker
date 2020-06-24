@@ -42,6 +42,10 @@
 
                         </ul>
                     </li>
+                    @if (User.IsInRole("Submitter"))
+                    {
+                        <li>@Html.ActionLink("Create Ticket", "Create", "Tickets")</li>
+                    }
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
