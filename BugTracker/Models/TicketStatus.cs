@@ -6,13 +6,7 @@ using System.Web;
 
 namespace BugTracker.Models
 {
-    public enum TStatus
-    {
-       Pending,
-       Assigned,
-       Updated,
-       Completed
-    }
+   
     public class TicketStatus
     {
         public TicketStatus()
@@ -21,7 +15,7 @@ namespace BugTracker.Models
         }
 
         public int Id { get; set; }
-        public TStatus Name { get; set; }
+        public string Name { get; set; }
         public ICollection<Ticket> Tickets { get; set; }
     }
 }

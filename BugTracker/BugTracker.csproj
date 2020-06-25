@@ -172,6 +172,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ProjectsController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
+    <Compile Include="Controllers\TicketsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -183,6 +184,26 @@
     <Compile Include="Migrations\202006222023491_ChangedTicketClass.Designer.cs">
       <DependentUpon>202006222023491_ChangedTicketClass.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202006232243258_TicketToProject.cs" />
+    <Compile Include="Migrations\202006232243258_TicketToProject.Designer.cs">
+      <DependentUpon>202006232243258_TicketToProject.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006251507168_AddedTicketController.cs" />
+    <Compile Include="Migrations\202006251507168_AddedTicketController.Designer.cs">
+      <DependentUpon>202006251507168_AddedTicketController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006251515017_MOdifiedTicketsClasses.cs" />
+    <Compile Include="Migrations\202006251515017_MOdifiedTicketsClasses.Designer.cs">
+      <DependentUpon>202006251515017_MOdifiedTicketsClasses.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006251621209_changedticketclassProjectId.cs" />
+    <Compile Include="Migrations\202006251621209_changedticketclassProjectId.Designer.cs">
+      <DependentUpon>202006251621209_changedticketclassProjectId.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006251738531_addedkeyforusersinticket.cs" />
+    <Compile Include="Migrations\202006251738531_addedkeyforusersinticket.Designer.cs">
+      <DependentUpon>202006251738531_addedkeyforusersinticket.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -193,6 +214,7 @@
     <Compile Include="Models\RoleAndUserHelper.cs" />
     <Compile Include="Models\Ticket.cs" />
     <Compile Include="Models\TicketAttachment.cs" />
+    <Compile Include="Models\TicketHelper.cs" />
     <Compile Include="Models\TicketPriority.cs" />
     <Compile Include="Models\TicketStatus.cs" />
     <Compile Include="Models\TicketType.cs" />
@@ -260,6 +282,10 @@
     <Content Include="Views\Projects\Index.cshtml" />
     <Content Include="Views\Projects\Edit.cshtml" />
     <Content Include="Views\Projects\MyProjects.cshtml" />
+    <Content Include="Views\Projects\Info.cshtml" />
+    <Content Include="Views\Projects\AddUser.cshtml" />
+    <Content Include="Views\Tickets\Index.cshtml" />
+    <Content Include="Views\Tickets\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -283,6 +309,21 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202006222023491_ChangedTicketClass.resx">
       <DependentUpon>202006222023491_ChangedTicketClass.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006232243258_TicketToProject.resx">
+      <DependentUpon>202006232243258_TicketToProject.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006251507168_AddedTicketController.resx">
+      <DependentUpon>202006251507168_AddedTicketController.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006251515017_MOdifiedTicketsClasses.resx">
+      <DependentUpon>202006251515017_MOdifiedTicketsClasses.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006251621209_changedticketclassProjectId.resx">
+      <DependentUpon>202006251621209_changedticketclassProjectId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006251738531_addedkeyforusersinticket.resx">
+      <DependentUpon>202006251738531_addedkeyforusersinticket.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

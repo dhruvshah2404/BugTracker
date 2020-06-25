@@ -14,21 +14,22 @@ namespace BugTracker.Models
         public string Title { get; set; }
         [Required]
         public string Description { get; set; }
+
         [DataType(DataType.Date)]
         public DateTime? Created { get; set; } 
 
         [DataType(DataType.Date)]
         public DateTime? Updated { get; set; }
 
-      
-        public int ProjectId { get; set; }
+        [ForeignKey("Project")]
+        public int? ProjectId { get; set; }
         public virtual Project Project { get; set; }
 
-      
+        [ForeignKey("OwnerUser")]
         public string OwnerUserId { get; set; }
         public virtual ApplicationUser OwnerUser { get; set; }//Submitter
 
-     
+        [ForeignKey("AssignedUser")]
         public string AssignedUserId { get; set; }
         public virtual ApplicationUser AssignedUser { get; set; }//Developer
 

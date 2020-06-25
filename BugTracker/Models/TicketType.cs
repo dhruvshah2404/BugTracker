@@ -8,16 +8,7 @@ namespace BugTracker.Models
 {
     public enum TType
     {
-        Bug,
-        [Display(Name = "Feature Request")]
-        FeatureRequest,
-        [Display(Name = "Sales Question")]
-        SalesQuestion,
-        [Display(Name = "How To")]
-        HowTo,
-        [Display(Name = "Technical Issue")]
-        TechnicalIssue,
-        Cancellation
+      
     }
     public class TicketType
     {
@@ -27,7 +18,7 @@ namespace BugTracker.Models
         }
 
         public int Id { get; set; }
-        public TType Name { get; set; }
+        public string Name { get; set; }
         public ICollection<Ticket> Tickets { get; set; }
     }
 }

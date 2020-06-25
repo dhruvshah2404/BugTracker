@@ -1,0 +1,53 @@
+﻿@model IEnumerable<BugTracker.Models.Ticket>
+@using BugTracker.Models;
+
+@{
+    ViewBag.Title = "Index";
+
+    ApplicationDbContext db = new ApplicationDbContext();// the database
+
+}
+
+
+<br />
+    <div class="card card-body">
+        <div class="card">
+            <h3 class="card-header">
+                <b>Tickets Info</b>
+            </h3>
+        </div>
+        <div class="card-body">
+            <table class="table table-hover table-bordered table-condensed" id="UsersWithRoles">
+                <thead>
+                    <tr>
+                        <td><b>Ticket Name</b></td>
+                        <td><b>Ticket Owner</b></td>
+                        <td><b>Ticket Status</b></td>
+                        <td><b>Ticket Priority</b></td>
+                        <td><b>Ticket Type</b></td>
+                    </tr>
+                </thead>
+                @foreach (var ticket in Model)
+                {
+            <tr>
+                <td>@ticket.Title</td>
+                <td>@ticket.OwnerUser.UserName</td>
+                <td>@ticket.TicketStatus.Name</td>
+                <td>@ticket.TicketPriority.Name</td>
+                <td>@ticket.TicketType.Name</td>
+            </tr>
+
+                }
+            </table>
+        </div>
+    </div>
+
+    <div class="alert-info col-sm-12 col-lg-12 col-md-12">
+        @ViewBag.message
+    </div>
+@*else
+{
+    <div>
+        <h3>You are not authorized to view this page</h3>
+    </div>
+}*@

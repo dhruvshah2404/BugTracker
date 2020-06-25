@@ -1,0 +1,85 @@
+﻿@model BugTracker.Models.Project
+@using BugTracker.Models;
+
+@{
+    ViewBag.Title = "Info";
+    ApplicationDbContext db = new ApplicationDbContext();// the database
+
+    var pm = db.ProjectUsers.FirstOrDefault(p => p.Project.Id == Model.Id).User.UserName;
+
+}
+
+<div class="card card-body">
+    <div class="card-header">
+        <h3 class="box-title">
+            <b>Project Info</b>
+        </h3>
+    </div>
+    <div class="card-body">
+        <table class="table table-hover table-bordered table-condensed" id="UsersWithRoles">
+
+            <thead>
+                <tr>
+                    <td><b>Project Name</b></td>
+                    <td>Project Manager</td>
+
+                </tr>
+            </thead>
+            <tr>
+                <td>@Model.Name</td>
+                <td>@pm</td>
+
+            </tr>
+        </table>
+    </div>
+</div>
+
+
+<div class="card card-body">
+    <div class="card-header">
+        <h3 class="box-title">
+            <b>Developers</b>
+        </h3>
+    </div>
+
+    <h3 style="padding:15px;margin:0px;padding-bottom:0">
+        @if (User.IsInRole("Project Manager") || User.IsInRole("Admin"))
+        {
+            <i class="fas fa-user"></i>
+            @Html.ActionLink("Add Developer", "AddUser", new { projectId = @Model.Id })
+        }
+
+    </h3>
+    <div class="card-body">
+        <table class="table table-hover table-bordered table-condensed" id="UsersWithRoles">
+
+            <thead>
+                <tr>
+                    <td><b>Developer Name</b></td>
+                    @if (User.IsInRole("Project Manager") || User.IsInRole("Admin"))
+                    {
+                        <td><b>Assign Task</b></td>
+                    <td><b>Remove</b></td>
+                    }
+                </tr>
+            </thead>
+            @foreach (var user in Model.Users)
+            {
+        <tr>
+            <td>@user.User.UserName</td>
+            @if (User.IsInRole("Project Manager") || User.IsInRole("Admin"))
+            {
+                <td><a href="/Ticket/Create?projectId=@Model.Id&userId=@user.UserId">Assign</a></td>
+            <td>
+                <span onclick="return confirm('Are you sure to delete?')"><a href="/Projects/RemoveFromProject?ProjectId=@Model.Id&userId=@user.UserId" class="delLink" style="color:red;">Remove</a></span>
+            </td>
+            }
+        </tr>
+            }
+
+        </table>
+    </div>
+
+</div>
+<h4>@Html.ActionLink("Back", "Index")</h4>
+

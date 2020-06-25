@@ -25,7 +25,7 @@ namespace BugTracker.Controllers
         public ActionResult MyProjects(string id)
         {
             var projects = db.ProjectUsers.Where(p => p.UserId == id).Select(u => u.Project).ToList();
-            if (projects.)
+            if (true)
             {
 
             }
@@ -57,6 +57,7 @@ namespace BugTracker.Controllers
             }
             return RedirectToAction("Index");
         }
+
         [Authorize(Roles = "Project Manager,Admin")]
         public ActionResult Edit(int? id)
         {
@@ -73,7 +74,7 @@ namespace BugTracker.Controllers
         }
 
         [HttpPost]
-        public ActionResult Edit([Bind(Include = "name,UserId")] Project project)
+        public ActionResult Edit([Bind(Include = "Id,Name")] Project project)
         {
             if (ModelState.IsValid)
             {
@@ -82,6 +83,73 @@ namespace BugTracker.Controllers
                 return RedirectToAction("Index");
             }
             return View(project);
+        }
+
+        public ActionResult Info(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var project = db.Projects.Include(t => t.Tickets).Include(u => u.Users)
+                .Where(x => x.Id == id)
+               .FirstOrDefault();
+
+            return View(project);
+        }
+        //Adding Developer to Project
+        [Authorize(Roles = "Project Manager,Admin")]
+        public ActionResult AddUser(int projectId)
+        {
+            var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(db));
+
+            var users = roleManager.FindByName("Developer").Users.Select(u => u.UserId).ToList();
+            var developers = db.Users.Where(e => users.Contains(e.Id)).ToList();
+
+            ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name");
+            ViewBag.UserId = new SelectList(developers, "Id", "UserName");
+            ViewBag.Project = projectId;
+            return View();
+        }
+
+
+        [HttpPost]
+        public ActionResult AddUser(int ProjectId, string UserId)
+        {
+            var ProjectUser = new ProjectUser() { ProjectId = ProjectId, UserId = UserId };
+            if (ModelState.IsValid)
+            {
+                if (!db.ProjectUsers.Any(p => p.ProjectId == ProjectId && p.UserId == UserId))
+                {
+                    db.ProjectUsers.Add(ProjectUser);
+                    db.SaveChanges();
+                    return RedirectToAction("Info", new { id = ProjectId });
+                }
+                else
+                {
+                    ViewBag.message = "User Already there";
+                    return RedirectToAction("Info", new { id = ProjectId });
+                }
+            }
+            var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(db));
+
+            var users = roleManager.FindByName("Developer").Users.Select(u => u.UserId).ToList();
+            var developers = db.Users.Where(e => users.Contains(e.Id)).ToList();
+
+            ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name");
+            ViewBag.UserId = new SelectList(developers, "Id", "UserName");
+            return View(ProjectUser);
+        }
+
+        [Authorize(Roles = "Project Manager,Admin")]
+        //remove developer
+        public ActionResult RemoveFromProject(int projectId, string userId)
+        {
+            var project = db.ProjectUsers.FirstOrDefault(p => p.ProjectId == projectId && p.UserId == userId);
+            db.ProjectUsers.Remove(project);
+            db.SaveChanges();
+            return RedirectToAction("Info", new { id = projectId });
         }
     }
 }
