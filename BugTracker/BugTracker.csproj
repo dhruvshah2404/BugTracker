@@ -204,6 +204,10 @@
     <Compile Include="Migrations\202006251738531_addedkeyforusersinticket.Designer.cs">
       <DependentUpon>202006251738531_addedkeyforusersinticket.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202006261817324_AddTicketCommentClass.cs" />
+    <Compile Include="Migrations\202006261817324_AddTicketCommentClass.Designer.cs">
+      <DependentUpon>202006261817324_AddTicketCommentClass.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -214,6 +218,7 @@
     <Compile Include="Models\RoleAndUserHelper.cs" />
     <Compile Include="Models\Ticket.cs" />
     <Compile Include="Models\TicketAttachment.cs" />
+    <Compile Include="Models\TicketComment.cs" />
     <Compile Include="Models\TicketHelper.cs" />
     <Compile Include="Models\TicketPriority.cs" />
     <Compile Include="Models\TicketStatus.cs" />
@@ -324,6 +329,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202006251738531_addedkeyforusersinticket.resx">
       <DependentUpon>202006251738531_addedkeyforusersinticket.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006261817324_AddTicketCommentClass.resx">
+      <DependentUpon>202006261817324_AddTicketCommentClass.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

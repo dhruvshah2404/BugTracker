@@ -13,12 +13,12 @@ namespace BugTracker.Models
     {
         static ApplicationDbContext db = new ApplicationDbContext();// the database
 
-       
-        public static void Create(string Title,string Description,int ticketTypeId,int priorityId)
+
+        public static void Create(string Title, string Description, int ticketTypeId, int priorityId)
         {
             Ticket ticket = new Ticket() { Title = Title, Description = Description, TicketTypeId = ticketTypeId, TicketPriorityId = priorityId };
             ticket.Created = DateTime.Now;
-            ticket.OwnerUserId= HttpContext.Current.User.Identity.GetUserId();
+            ticket.OwnerUserId = HttpContext.Current.User.Identity.GetUserId();
             ticket.TicketStatusId = db.TicketStatus.FirstOrDefault(t => t.Name == "Pending").Id;
             db.Tickets.Add(ticket);
 
@@ -42,7 +42,4 @@ namespace BugTracker.Models
             return false;
         }
     }
-
-
-    
 }

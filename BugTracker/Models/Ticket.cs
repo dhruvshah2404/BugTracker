@@ -3,12 +3,18 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Security.Policy;
 using System.Web;
 
 namespace BugTracker.Models
 {
     public class Ticket
     {
+        public Ticket()
+        {
+            this.TicketComments = new HashSet<TicketComment>();
+        }
+
         public int Id { get; set; }
         [Required]
         public string Title { get; set; }
@@ -44,6 +50,8 @@ namespace BugTracker.Models
         [ForeignKey("TicketStatus")]
         public int TicketStatusId { get; set; }
         public virtual TicketStatus TicketStatus { get; set; }//Enum
+
+        public ICollection<TicketComment> TicketComments { get; set; }
 
     }
 }
