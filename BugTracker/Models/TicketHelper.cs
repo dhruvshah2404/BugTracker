@@ -17,11 +17,20 @@ namespace BugTracker.Models
         public static void Create(string Title, string Description, int ticketTypeId, int priorityId)
         {
             Ticket ticket = new Ticket() { Title = Title, Description = Description, TicketTypeId = ticketTypeId, TicketPriorityId = priorityId };
+            
             ticket.Created = DateTime.Now;
+            
             ticket.OwnerUserId = HttpContext.Current.User.Identity.GetUserId();
-            ticket.TicketStatusId = db.TicketStatus.FirstOrDefault(t => t.Name == "Pending").Id;
-            db.Tickets.Add(ticket);
+            ticket.OwnerUser = db.Users.FirstOrDefault(user => user.Id == HttpContext.Current.User.Identity.GetUserId());
 
+            ticket.TicketStatusId = db.TicketStatus.FirstOrDefault(t => t.Name == "Pending").Id;
+            ticket.TicketStatus = db.TicketStatus.FirstOrDefault(t => t.Name == "Pending");
+
+            ticket.TicketPriority = db.TicketPriorities.FirstOrDefault(tp => tp.Id == priorityId);
+
+            ticket.TicketType = db.TicketTypes.FirstOrDefault(tt => tt.Id == ticketTypeId);
+
+            db.Tickets.Add(ticket);
             db.SaveChanges();
         }
 
